@@ -1,16 +1,25 @@
-assert () {
-	"$1"
+assert_exit_code () {
+	# $1 - expected exit code
+	# $2 - command to be executed
+	eval "$2"
+	test $? -eq "$1"
 }
 
-test_assert_fails_if_given_command_fails () {
-	printf 'test_assert_fails_if_given_command_fails...'
+test_assert_exit_code_fails_if_incorrect_exit_code () {
+	assert_exit_code 0 'false'
 
-	if assert 'false'
+	test $? -eq 1
+}
+
+run () {
+	printf '%s...' "$1"
+
+	if "$1"
 	then
-		! printf 'FAILED\n'
-	else
 		printf 'ok\n'
+	else
+		printf 'FAILED\n'
 	fi
 }
 
-test_assert_fails_if_given_command_fails
+run test_assert_exit_code_fails_if_incorrect_exit_code
