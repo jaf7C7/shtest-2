@@ -5,7 +5,7 @@ assert_exit_code () {
 	test $? -eq "$1"
 }
 
-test_assert_exit_code_fails_if_incorrect_exit_code () {
+test_fails_if_incorrect_exit_code () {
 	return_1 () {
 		return 1
 	}
@@ -15,7 +15,7 @@ test_assert_exit_code_fails_if_incorrect_exit_code () {
 	test $? -eq 1
 }
 
-test_assert_exit_code_succeeds_if_correct_exit_code () {
+test_succeeds_if_correct_exit_code () {
 	return_0 () {
 		return 0
 	}
@@ -25,7 +25,7 @@ test_assert_exit_code_succeeds_if_correct_exit_code () {
 	test $? -eq 0
 }
 
-test_assert_exit_code_executes_command_in_isolation () {
+test_executes_command_in_isolation () {
 	set_foo_equal_to_bar () {
 		foo=bar
 	}
@@ -35,7 +35,7 @@ test_assert_exit_code_executes_command_in_isolation () {
 	test -z "$foo"
 }
 
-run_test () {
+run () {
 	# $1 - name of test function
 	printf '%s...' "$1"
 
@@ -47,6 +47,6 @@ run_test () {
 	fi
 }
 
-run test_assert_exit_code_fails_if_incorrect_exit_code
-run test_assert_exit_code_succeeds_if_correct_exit_code
-run test_assert_exit_code_executes_command_in_isolation
+run test_fails_if_incorrect_exit_code
+run test_succeeds_if_correct_exit_code
+run test_executes_command_in_isolation
