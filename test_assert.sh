@@ -35,7 +35,8 @@ test_assert_exit_code_executes_command_in_isolation () {
 	test -z "$foo"
 }
 
-run () {
+run_test () {
+	# $1 - name of test function
 	printf '%s...' "$1"
 
 	if "$1"
