@@ -1,12 +1,5 @@
 . ./run.sh
 
-assert_exit_code () {
-	# $1 - expected exit code
-	# $2 - command to be executed
-	( eval "$2" )
-	test $? -eq "$1"
-}
-
 test_fails_if_incorrect_exit_code () {
 	return_1 () {
 		return 1
