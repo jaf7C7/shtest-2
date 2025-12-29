@@ -6,13 +6,21 @@ assert_exit_code () {
 }
 
 test_assert_exit_code_fails_if_incorrect_exit_code () {
-	assert_exit_code 0 'false'
+	return_1 () {
+		return 1
+	}
+
+	assert_exit_code 0 'return_1'
 
 	test $? -eq 1
 }
 
 test_assert_exit_code_succeeds_if_correct_exit_code () {
-	assert_exit_code 0 'true'
+	return_0 () {
+		return 0
+	}
+
+	assert_exit_code 0 'return_0'
 
 	test $? -eq 0
 }
