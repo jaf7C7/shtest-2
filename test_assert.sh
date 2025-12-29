@@ -11,6 +11,12 @@ test_assert_exit_code_fails_if_incorrect_exit_code () {
 	test $? -eq 1
 }
 
+test_assert_exit_code_succeeds_if_correct_exit_code () {
+	assert_exit_code 0 'true'
+
+	test $? -eq 0
+}
+
 run () {
 	printf '%s...' "$1"
 
@@ -23,3 +29,4 @@ run () {
 }
 
 run test_assert_exit_code_fails_if_incorrect_exit_code
+run test_assert_exit_code_succeeds_if_correct_exit_code
