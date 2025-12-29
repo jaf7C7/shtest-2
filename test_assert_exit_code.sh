@@ -1,3 +1,5 @@
+. ./run.sh
+
 assert_exit_code () {
 	# $1 - expected exit code
 	# $2 - command to be executed
@@ -33,18 +35,6 @@ test_executes_command_in_isolation () {
 	assert_exit_code 0 'set_foo_equal_to_bar'
 
 	test -z "$foo"
-}
-
-run () {
-	# $1 - name of test function
-	printf '%s...' "$1"
-
-	if "$1"
-	then
-		printf 'ok\n'
-	else
-		printf 'FAILED\n'
-	fi
 }
 
 run test_fails_if_incorrect_exit_code
