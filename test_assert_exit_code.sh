@@ -1,16 +1,20 @@
 . ./run.sh
 . ./assert_exit_code.sh
 
-test_prints_message_on_failure () {
-	return_1 () {
-		return 1
-	}
+return_1 () {
+	return 1
+}
 
+test_prints_message_on_failure () {
 	msg="\
 expected: '0'
 actual: '1'"
 
 	test "$(assert_exit_code 0 'return_1')" = "$msg"
+}
+
+test_does_not_print_message_on_success () {
+	test "$(assert 1 'return_1')" = ''
 }
 
 test_fails_if_incorrect_exit_code () {
@@ -44,6 +48,7 @@ test_executes_command_in_isolation () {
 }
 
 run test_prints_message_on_failure
+run test_does_not_print_message_on_success
 run test_fails_if_incorrect_exit_code
 run test_succeeds_if_correct_exit_code
 run test_executes_command_in_isolation
