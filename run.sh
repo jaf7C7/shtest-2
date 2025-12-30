@@ -2,7 +2,7 @@ run () {
 	# $1 - name of test function
 	printf '%s...' "$1"
 
-	if "$1"
+	if ( "$1" )
 	then
 		printf '\033[32m%s\033[m\n' 'ok'
 	else
