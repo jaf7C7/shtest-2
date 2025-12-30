@@ -47,8 +47,18 @@ test_executes_command_in_isolation () {
 	test -z "$foo"
 }
 
+test_does_not_throw_error_if_command_contains_whitespace () {
+	assert_exit_code 1 '
+		: do stuff
+		return_1
+	'
+
+	test $? -eq 0
+}
+
 run test_prints_message_on_failure
 run test_does_not_print_message_on_success
 run test_fails_if_incorrect_exit_code
 run test_succeeds_if_correct_exit_code
 run test_executes_command_in_isolation
+run test_does_not_throw_error_if_command_contains_whitespace
