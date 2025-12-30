@@ -1,17 +1,17 @@
 . ./run.sh
 . ./assert_equal.sh
 
-test_assert_equal_fails_if_strings_are_not_equal () {
+test_fails_if_strings_are_not_equal () {
 	assert_equal 'string' 'different string'
 
 	test $? -eq 1
 }
 
-test_assert_equal_succeeds_if_strings_are_equal () {
+test_succeeds_if_strings_are_equal () {
 	assert_equal 'string' 'string'
 
 	test $? -eq 0
 }
 
-run test_assert_equal_fails_if_strings_are_not_equal
-run test_assert_equal_succeeds_if_strings_are_equal
+run test_fails_if_strings_are_not_equal
+run test_succeeds_if_strings_are_equal
