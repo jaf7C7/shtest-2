@@ -26,6 +26,15 @@ actual: '$other_string'\
 	test "$result" = "$msg"
 }
 
+test_does_not_print_message_if_strings_are_equal () {
+	string='a'
+
+	result=$(assert_equal "$string" "$string")
+
+	test "$result" = ""
+}
+
 run test_fails_if_strings_are_not_equal
 run test_succeeds_if_strings_are_equal
 run test_prints_message_if_strings_are_not_equal
+run test_does_not_print_message_if_strings_are_equal
