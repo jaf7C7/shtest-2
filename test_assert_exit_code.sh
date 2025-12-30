@@ -14,7 +14,7 @@ actual: '1'"
 }
 
 test_does_not_print_message_on_success () {
-	test "$(assert 1 'return_1')" = ''
+	test "$(assert_exit_code 1 'return_1')" = ''
 }
 
 test_fails_if_incorrect_exit_code () {
