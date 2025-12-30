@@ -3,7 +3,7 @@
 assert () {
 	# $1 - command to be executed
 	# $2 - message to print if command fails
-	"$1"
+	eval "$1"
 
 	if test $? -ne 0
 	then
@@ -25,5 +25,13 @@ test_does_not_print_message_on_success () {
 	test "$(assert "$cmd" "$msg")" = ''
 }
 
+test_does_not_throw_error_if_command_contains_whitespace () {
+	cmd='true and some args'
+	msg='this should not be printed'
+
+	test "$(assert "$cmd" "$msg")" = ''
+}
+
 run test_prints_message_on_failure
 run test_does_not_print_message_on_success
+run test_does_not_throw_error_if_command_contains_whitespace
