@@ -22,6 +22,16 @@ test_does_not_throw_error_if_command_contains_whitespace () {
 	test "$(assert "$cmd" "$msg")" = ''
 }
 
+test_returns_1_if_command_fails () {
+	cmd='false'
+	msg=''
+
+	assert "$cmd" "$msg" >/dev/null
+
+	test $? -eq 1
+}
+
 run test_prints_message_on_failure
 run test_does_not_print_message_on_success
 run test_does_not_throw_error_if_command_contains_whitespace
+run test_returns_1_if_command_fails

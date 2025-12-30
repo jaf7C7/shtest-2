@@ -6,5 +6,6 @@ assert () {
 	if test $? -ne 0
 	then
 		printf '%s\n' "$2"
+		return 1
 	fi
 }
