@@ -18,4 +18,12 @@ test_prints_message_on_failure () {
 	test "$(assert "$cmd" "$msg")" = "$msg"
 }
 
+test_does_not_print_message_on_success () {
+	cmd='true'
+	msg='this should not be printed'
+
+	test "$(assert "$cmd" "$msg")" = ''
+}
+
 run test_prints_message_on_failure
+run test_does_not_print_message_on_success
