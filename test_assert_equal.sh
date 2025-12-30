@@ -12,4 +12,11 @@ test_assert_equal_fails_if_strings_are_not_equal () {
 	test $? -eq 1
 }
 
+test_assert_equal_succeeds_if_strings_are_equal () {
+	assert_equal 'string' 'string'
+
+	test $? -eq 0
+}
+
 run test_assert_equal_fails_if_strings_are_not_equal
+run test_assert_equal_succeeds_if_strings_are_equal
