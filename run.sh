@@ -4,8 +4,8 @@ run () {
 
 	if "$1"
 	then
-		printf 'ok\n'
+		printf '\033[32m%s\033[m\n' 'ok'
 	else
-		printf 'FAILED\n'
+		printf '\033[1;31m%s\033[m\n' 'FAILED'
 	fi
 }
