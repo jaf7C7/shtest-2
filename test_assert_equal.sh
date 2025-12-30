@@ -1,4 +1,5 @@
 . ./run.sh
+. ./assert_equal.sh
 
 test_assert_equal_fails_if_strings_are_not_equal () {
 	assert_equal 'string' 'different string'

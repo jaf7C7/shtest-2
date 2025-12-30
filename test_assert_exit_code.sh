@@ -1,4 +1,5 @@
 . ./run.sh
+. ./assert_exit_code.sh
 
 test_fails_if_incorrect_exit_code () {
 	return_1 () {
