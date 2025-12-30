@@ -31,7 +31,17 @@ test_returns_1_if_command_fails () {
 	test $? -eq 1
 }
 
+test_returns_0_if_command_succeeds () {
+	cmd='true'
+	msg=''
+
+	assert "$cmd" "$msg"
+
+	test $? -eq 0
+}
+
 run test_prints_message_on_failure
 run test_does_not_print_message_on_success
 run test_does_not_throw_error_if_command_contains_whitespace
 run test_returns_1_if_command_fails
+run test_returns_0_if_command_succeeds
