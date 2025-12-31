@@ -1,4 +1,4 @@
 get_test_names () {
 	# $1 - File containing test functions
-	grep '^test_' "$1"
+	sed -n 's/\(^test_[^[:space:]]*\)[[:space:]]*().*/\1/p' "$1"
 }

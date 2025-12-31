@@ -9,8 +9,11 @@ test_a () {
 }
 EOF
 	test "$(get_test_names "$tmp")" = 'test_a'
+	outcome=$?
 
 	rm "$tmp"
+
+	return "$outcome"
 }
 
 run test_extracts_all_test_names_from_a_file
