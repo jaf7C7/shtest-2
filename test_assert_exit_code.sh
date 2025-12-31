@@ -8,31 +8,28 @@ return_1 () {
 test_prints_message_on_failure () {
 	msg="\
 expected: '0'
-actual: '1'"
+actual: '1'\
+"
+	result=$(assert_exit_code 0 'return_1')
 
-	test "$(assert_exit_code 0 'return_1')" = "$msg"
+	test "$result" = "$msg"
 }
 
 test_does_not_print_message_on_success () {
-	test "$(assert_exit_code 1 'return_1')" = ''
+	msg=''
+	result=$(assert_exit_code 1 'return_1')
+
+	test "$result" = "$msg"
 }
 
 test_fails_if_incorrect_exit_code () {
-	return_1 () {
-		return 1
-	}
-
 	assert_exit_code 0 'return_1' >/dev/null
 
 	test $? -eq 1
 }
 
 test_succeeds_if_correct_exit_code () {
-	return_0 () {
-		return 0
-	}
-
-	assert_exit_code 0 'return_0'
+	assert_exit_code 1 'return_1'
 
 	test $? -eq 0
 }
