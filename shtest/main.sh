@@ -1,4 +1,4 @@
-_run () {
+_run_test () {
 	# $1 - name of test function
 	printf '%s...' "$1"
 
@@ -19,7 +19,7 @@ _run () {
 	fi
 }
 
-_find_test_functions () {
+_extract_tests () {
 	# $1 - File containing test functions.
 	. "$1"
 	
@@ -31,33 +31,36 @@ _find_test_functions () {
 
 	# Filter out any names which aren't declared in the file, leaving only
 	# real tests.
-	for fname in "$@"
+	for name in "$@"
 	do
 		shift
-		if command -v "$fname" >/dev/null
+		if command -v "$name" >/dev/null
 		then
-			set -- "$@" "$fname"
+			set -- "$@" "$name"
 		fi
 	done
 
 	printf '%s\n' "$@"
 }
 
-main () {
-	for f in "$@"
+_run_all_tests () {
+	# $1 - file containing tests to be run
+	. shtest/assert.sh
+	. "$1"
+
+	printf '%s\n\n' "$1"
+
+	for test in $(_extract_tests "$1")
 	do
-		(
-			. shtest/assert.sh
-			. "$f"
+		_run_test "$test"
+	done
 
-			printf '%s\n\n' "$f"
+	printf '\n'
+}
 
-			for t in $(_find_test_functions "$f")
-			do
-				_run "$t"
-			done
-
-			printf '\n'
-		)
+main () {
+	for file in "$@"
+	do
+		( _run_all_tests "$file" )
 	done
 }
