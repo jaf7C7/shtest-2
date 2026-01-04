@@ -30,4 +30,25 @@ test_b...ok"
 	return "$outcome"
 }
 
+test_runs_each_test_file_in_isolation () {
+	tmp1=$(mktemp)
+	tmp2=$(mktemp)
+
+	cat >"$tmp1" <<EOF
+some_var=1
+EOF
+	cat >"$tmp2" <<EOF
+some_var=2
+EOF
+	run_all "$tmp1" "$tmp2" >/dev/null
+
+	test -z "$some_var"
+	outcome=$?
+
+	rm "$tmp1" "$tmp2"
+
+	return "$outcome"
+}
+
 run test_runs_all_tests_in_each_test_file_specified
+run test_runs_each_test_file_in_isolation
