@@ -23,7 +23,7 @@ _run () {
 	fi
 }
 
-_get_test_names () {
+_find_test_functions () {
 	# $1 - File containing test functions.
 	. "$1"
 	
@@ -52,7 +52,7 @@ main () {
 
 			printf '%s\n\n' "$f"
 
-			for t in $(_get_test_names "$f")
+			for t in $(_find_test_functions "$f")
 			do
 				_run "$t"
 			done
