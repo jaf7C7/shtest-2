@@ -93,7 +93,47 @@ test_a...ok"
 	return "$outcome"
 }
 
+test_also_extracts_function_names_with_different_valid_formatting () {
+	tmp=$(mktemp)
+
+	cat >"$tmp" <<EOF
+test_a() {
+	:
+}
+
+test_b ()
+{
+	:
+}
+
+test_c()
+{
+	:
+}
+EOF
+	expected="\
+$tmp
+
+test_a...ok
+test_b...ok
+test_c...ok"
+	result="$(main "$tmp")"
+
+	test "$result" = "$expected"
+	outcome=$?
+
+	if test "$outcome" -ne 0
+	then
+		printf '\n got: %s\nexpected: %s\n' "$result" "$expected" >&2
+	fi
+
+	rm "$tmp"
+
+	return "$outcome"
+}
+
 run test_extracts_test_names_from_a_file_and_runs_them
 run test_runs_all_tests_in_each_test_file_specified
 run test_runs_each_test_file_in_isolation
 run test_ignores_functions_which_do_not_start_with_test_
+run test_also_extracts_function_names_with_different_valid_formatting

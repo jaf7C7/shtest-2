@@ -6,12 +6,15 @@ main () {
 	do
 		(
 			. "$f"
+
+			printf '%s\n\n' "$f"
+
 			for t in $(get_test_names "$f")
 			do
-				printf '%s\n\n' "$f"
 				run "$t"
-				printf '\n'
 			done
+
+			printf '\n'
 		)
 	done
 }
