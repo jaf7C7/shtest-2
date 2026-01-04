@@ -1,25 +1,21 @@
-_print () {
-	# Behaves like `printf` but does not print escape sequences if stdout
-	# is not a terminal. Assumes the format string is just '%s\n' wrapped
-	# in colour escapes, and might give unexpected results if that's not
-	# the case.
-	if ! test -t 1
-	then
-		shift
-		set -- '%s\n' "$@"
-	fi
-	printf "$@"
-}
-
 _run () {
 	# $1 - name of test function
 	printf '%s...' "$1"
 
+	if test -t 1
+	then
+		okfmt='\033[32m%s\033[m\n'
+		failfmt='\033[1;31m%s\033[m\n'
+	else
+		okfmt='%s\n'
+		failfmt='%s\n'
+	fi
+
 	if ( "$1" )
 	then
-		_print '\033[32m%s\033[m\n' 'ok'
+		printf "$okfmt" 'ok'
 	else
-		_print '\033[1;31m%s\033[m\n' 'FAILED'
+		printf "$failfmt" 'FAILED'
 	fi
 }
 
