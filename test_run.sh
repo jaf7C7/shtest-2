@@ -10,4 +10,4 @@ test_executes_test_in_isolation () {
 	test -z "$a"
 }
 
-run test_run_executes_test_in_isolation
+run test_executes_test_in_isolation
