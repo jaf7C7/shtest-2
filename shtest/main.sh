@@ -23,17 +23,20 @@ _find_test_functions () {
 	# $1 - File containing test functions.
 	. "$1"
 	
-	# Set argument list to array of potential test names.
+	# Search the file for potential test names. That is any words
+	# at the beginning of a line which start with "test_" and end in
+	# parentheses. Set the argument list the array of these potential test
+	# names.
 	set -- $(sed -n 's/\(^test_[^ 	]*\)[ 	]*().*/\1/p' "$1")
 
 	# Filter out any names which aren't declared in the file, leaving only
 	# real tests.
-	for test in "$@"
+	for fname in "$@"
 	do
 		shift
-		if command -v "$test" >/dev/null
+		if command -v "$fname" >/dev/null
 		then
-			set -- "$@" "$test"
+			set -- "$@" "$fname"
 		fi
 	done
 
