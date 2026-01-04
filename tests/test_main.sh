@@ -1,6 +1,26 @@
 . shtest/run.sh
 . shtest/main.sh
 
+test_extracts_test_names_from_a_file_and_runs_them () {
+	tmp=$(mktemp)
+
+	cat >"$tmp" <<EOF
+test_a () {
+	return 0
+}
+EOF
+
+	test "$(main "$tmp")" = "\
+$tmp
+
+test_a...ok"
+	outcome=$?
+
+	rm "$tmp"
+
+	return "$outcome"
+}
+
 test_runs_all_tests_in_each_test_file_specified () {
 	tmp1=$(mktemp)
 	tmp2=$(mktemp)
@@ -50,5 +70,6 @@ EOF
 	return "$outcome"
 }
 
+run test_extracts_test_names_from_a_file_and_runs_them
 run test_runs_all_tests_in_each_test_file_specified
 run test_runs_each_test_file_in_isolation
