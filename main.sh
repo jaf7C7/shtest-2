@@ -1,7 +1,7 @@
 . ./run.sh
 . ./get_test_names.sh
 
-run_all () {
+main () {
 	for f in "$@"
 	do
 		(

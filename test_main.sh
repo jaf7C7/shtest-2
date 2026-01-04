@@ -1,5 +1,5 @@
 . ./run.sh
-. ./run_all.sh
+. ./main.sh
 
 test_runs_all_tests_in_each_test_file_specified () {
 	tmp1=$(mktemp)
@@ -15,7 +15,7 @@ test_b () {
 	return 0
 }
 EOF
-	test "$(run_all "$tmp1" "$tmp2")" = "\
+	test "$(main "$tmp1" "$tmp2")" = "\
 $tmp1
 
 test_a...ok
@@ -40,7 +40,7 @@ EOF
 	cat >"$tmp2" <<EOF
 some_var=2
 EOF
-	run_all "$tmp1" "$tmp2" >/dev/null
+	main "$tmp1" "$tmp2" >/dev/null
 
 	test -z "$some_var"
 	outcome=$?
