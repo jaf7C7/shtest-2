@@ -132,8 +132,32 @@ test_c...ok"
 	return "$outcome"
 }
 
+test_only_extracts_names_of_defined_functions () {
+	tmp=$(mktemp)
+
+	cat >"$tmp" <<EOF
+test_this_is_a_real_test_function () {
+	fake_test_function='
+test_looks_like_a_test_function_but_is_not () {
+	:
+}
+'
+}
+EOF
+	test "$(main "$tmp")" = "\
+$tmp
+
+test_this_is_a_real_test_function...ok"
+	outcome=$?
+
+	rm "$tmp"
+
+	return "$outcome"
+}
+
 run test_extracts_test_names_from_a_file_and_runs_them
 run test_runs_all_tests_in_each_test_file_specified
 run test_runs_each_test_file_in_isolation
 run test_ignores_functions_which_do_not_start_with_test_
 run test_also_extracts_function_names_with_different_valid_formatting
+run test_only_extracts_names_of_defined_functions
