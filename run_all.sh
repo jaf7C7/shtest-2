@@ -1,3 +1,4 @@
+. ./run.sh
 . ./get_test_names.sh
 
 run_all () {
@@ -7,7 +8,7 @@ run_all () {
 		for t in $(get_test_names "$f")
 		do
 			printf '%s\n\n' "$f"
-			printf '%s...ok\n' "$t"
+			run "$t"
 			printf '\n'
 		done
 	done
