@@ -47,6 +47,7 @@ main () {
 	for f in "$@"
 	do
 		(
+			. shtest/assert.sh
 			. "$f"
 
 			printf '%s\n\n' "$f"

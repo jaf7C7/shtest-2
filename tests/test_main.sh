@@ -173,3 +173,28 @@ test_this_is_a_real_test_function...ok"
 
 	return "$result"
 }
+
+test_assertions_are_available_in_tests () {
+	test_file=$(mktemp)
+
+	cat >"$test_file" <<EOF
+test_assert_equal_is_defined () {
+	command -v assert_equal >/dev/null
+}
+
+test_assert_exit_code_is_defined () {
+	command -v assert_exit_code >/dev/null
+}
+EOF
+	
+	test "$(main "$test_file")" = "\
+$test_file
+
+test_assert_equal_is_defined...ok
+test_assert_exit_code_is_defined...ok"
+
+	result=$?
+	rm "$test_file"
+
+	return "$result"
+}
