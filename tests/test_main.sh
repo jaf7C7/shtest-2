@@ -93,6 +93,30 @@ test_a...ok"
 	return "$outcome"
 }
 
+test_runs_each_test_function_in_isolation () {
+	tmp=$(mktemp)
+
+	cat >"$tmp" <<\EOF
+test_a () {
+	a=1
+}
+
+test_b () {
+	test -z "$a"
+}
+EOF
+	test "$(main "$tmp")" = "\
+$tmp
+
+test_a...ok
+test_b...ok"
+	outcome=$?
+
+	rm "$tmp"
+
+	return "$outcome"
+}
+
 test_also_extracts_function_names_with_different_valid_formatting () {
 	tmp=$(mktemp)
 
@@ -158,6 +182,7 @@ test_this_is_a_real_test_function...ok"
 run test_extracts_test_names_from_a_file_and_runs_them
 run test_runs_all_tests_in_each_test_file_specified
 run test_runs_each_test_file_in_isolation
+run test_runs_each_test_function_in_isolation
 run test_ignores_functions_which_do_not_start_with_test_
 run test_also_extracts_function_names_with_different_valid_formatting
 run test_only_extracts_names_of_defined_functions
