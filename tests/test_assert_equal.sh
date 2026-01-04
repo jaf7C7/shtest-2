@@ -1,4 +1,4 @@
-. shtest/assert_equal.sh
+. shtest/assert.sh
 
 test_fails_if_strings_are_not_equal () {
 	assert_equal 'string' 'different string' >/dev/null

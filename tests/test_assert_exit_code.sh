@@ -1,4 +1,4 @@
-. shtest/assert_exit_code.sh
+. shtest/assert.sh
 
 return_1 () {
 	return 1
