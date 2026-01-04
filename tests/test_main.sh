@@ -1,4 +1,3 @@
-. shtest/run.sh
 . shtest/main.sh
 
 test_extracts_test_names_from_a_file_and_runs_them () {
@@ -178,11 +177,3 @@ test_this_is_a_real_test_function...ok"
 
 	return "$outcome"
 }
-
-run test_extracts_test_names_from_a_file_and_runs_them
-run test_runs_all_tests_in_each_test_file_specified
-run test_runs_each_test_file_in_isolation
-run test_runs_each_test_function_in_isolation
-run test_ignores_functions_which_do_not_start_with_test_
-run test_also_extracts_function_names_with_different_valid_formatting
-run test_only_extracts_names_of_defined_functions

@@ -1,4 +1,3 @@
-. shtest/run.sh
 . shtest/assert_equal.sh
 
 test_fails_if_strings_are_not_equal () {
@@ -33,8 +32,3 @@ test_does_not_print_message_if_strings_are_equal () {
 
 	test "$result" = ""
 }
-
-run test_fails_if_strings_are_not_equal
-run test_succeeds_if_strings_are_equal
-run test_prints_message_if_strings_are_not_equal
-run test_does_not_print_message_if_strings_are_equal
