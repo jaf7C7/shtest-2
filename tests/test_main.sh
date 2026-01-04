@@ -8,16 +8,18 @@ test_a () {
 	return 0
 }
 EOF
-
-	test "$(main "$test_file")" = "\
+	result=$(main "$test_file")
+	expected="\
 $test_file
 
 test_a...ok"
 
-	result=$?
+	test "$result" = "$expected"
+	exit_code=$?
+
 	rm "$test_file"
 
-	return "$result"
+	return "$exit_code"
 }
 
 test_runs_all_tests_in_each_test_file_specified () {
@@ -29,14 +31,14 @@ test_a () {
 	return 0
 }
 EOF
-
 	cat >"$test_file2" <<EOF
 test_b () {
 	return 0
 }
 EOF
 
-	test "$(main "$test_file1" "$test_file2")" = "\
+	result=$(main "$test_file1" "$test_file2")
+	expected="\
 $test_file1
 
 test_a...ok
@@ -45,10 +47,12 @@ $test_file2
 
 test_b...ok"
 
-	result=$?
+	test "$result" = "$expected"
+	exit_code=$?
+
 	rm "$test_file1" "$test_file2"
 
-	return "$result"
+	return "$exit_code"
 }
 
 test_runs_each_test_file_in_isolation () {
@@ -64,11 +68,11 @@ EOF
 	main "$test_file1" "$test_file2" >/dev/null
 
 	test -z "$some_var"
+	exit_code=$?
 
-	result=$?
 	rm "$test_file1" "$test_file2"
 
-	return "$result"
+	return "$exit_code"
 }
 
 test_ignores_functions_which_do_not_start_with_test_ () {
@@ -84,15 +88,18 @@ some_func () {
 }
 EOF
 
-	test "$(main "$test_file")" = "\
+	result=$(main "$test_file")
+	expected="\
 $test_file
 
 test_a...ok"
 
-	result=$?
+	test "$result" = "$expected"
+	exit_code=$?
+
 	rm "$test_file"
 
-	return "$result"
+	return "$exit_code"
 }
 
 test_runs_each_test_function_in_isolation () {
@@ -107,16 +114,19 @@ test_b () {
 	test -z "$a"
 }
 EOF
-	test "$(main "$test_file")" = "\
+	result=$(main "$test_file")
+	expected="\
 $test_file
 
 test_a...ok
 test_b...ok"
-	result=$?
+
+	test "$result" = "$expected"
+	exit_code=$?
 
 	rm "$test_file"
 
-	return "$result"
+	return "$exit_code"
 }
 
 test_also_extracts_function_names_with_different_valid_formatting () {
@@ -137,17 +147,20 @@ test_c()
 	return 0
 }
 EOF
-	test "$(main "$test_file")" = "\
+	result=$(main "$test_file")
+	expected="\
 $test_file
 
 test_a...ok
 test_b...ok
 test_c...ok"
 
-	result=$?
+	test "$result" = "$expected"
+	exit_code=$?
+
 	rm "$test_file"
 
-	return "$result"
+	return "$exit_code"
 }
 
 test_only_extracts_names_of_defined_functions () {
@@ -162,16 +175,18 @@ test_looks_like_a_test_function_but_is_not () {
 '
 }
 EOF
-
-	test "$(main "$test_file")" = "\
+	result=$(main "$test_file")
+	expected="\
 $test_file
 
 test_this_is_a_real_test_function...ok"
 
-	result=$?
+	test "$result" = "$expected"
+	exit_code=$?
+
 	rm "$test_file"
 
-	return "$result"
+	return "$exit_code"
 }
 
 test_assertions_are_available_in_tests () {
@@ -187,14 +202,17 @@ test_assert_exit_code_is_defined () {
 }
 EOF
 	
-	test "$(main "$test_file")" = "\
+	result=$(main "$test_file")
+	expected="\
 $test_file
 
 test_assert_equal_is_defined...ok
 test_assert_exit_code_is_defined...ok"
 
-	result=$?
+	test "$result" = "$expected"
+	exit_code=$?
+
 	rm "$test_file"
 
-	return "$result"
+	return "$exit_code"
 }
