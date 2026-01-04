@@ -1,5 +1,5 @@
-. ./run.sh
-. ./get_test_names.sh
+. shtest/run.sh
+. shtest/get_test_names.sh
 
 main () {
 	for f in "$@"

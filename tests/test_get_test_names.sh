@@ -1,5 +1,5 @@
-. ./run.sh
-. ./get_test_names.sh
+. shtest/run.sh
+. shtest/get_test_names.sh
 
 test_extracts_all_test_names_from_a_file () {
 	tmp=$(mktemp)

@@ -1,5 +1,5 @@
-. ./run.sh
-. ./main.sh
+. shtest/run.sh
+. shtest/main.sh
 
 test_runs_all_tests_in_each_test_file_specified () {
 	tmp1=$(mktemp)

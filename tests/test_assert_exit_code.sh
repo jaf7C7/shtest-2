@@ -1,5 +1,5 @@
-. ./run.sh
-. ./assert_exit_code.sh
+. shtest/run.sh
+. shtest/assert_exit_code.sh
 
 return_1 () {
 	return 1

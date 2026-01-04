@@ -1,4 +1,4 @@
-. ./run.sh
+. shtest/run.sh
 
 test_executes_test_in_isolation () {
 	set_a_to_1 () {
