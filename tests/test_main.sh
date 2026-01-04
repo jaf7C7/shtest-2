@@ -70,6 +70,30 @@ EOF
 	return "$outcome"
 }
 
+test_ignores_functions_which_do_not_start_with_test_ () {
+	tmp=$(mktemp)
+
+	cat >"$tmp" <<EOF
+test_a () {
+	:
+}
+
+some_func () {
+	:
+}
+EOF
+	test "$(main "$tmp")" = "\
+$tmp
+
+test_a...ok"
+	outcome=$?
+
+	rm "$tmp"
+
+	return "$outcome"
+}
+
 run test_extracts_test_names_from_a_file_and_runs_them
 run test_runs_all_tests_in_each_test_file_specified
 run test_runs_each_test_file_in_isolation
+run test_ignores_functions_which_do_not_start_with_test_
