@@ -16,12 +16,12 @@ TODO
 	    └── test_a
 	        ├── errors  <- only present if something was printed to stderr
 	        └── result
-        $ cat .shtest/totals
-        # source this file
-        total=1
-        passed=0
-        failed=1
-        $ cat .shtest/test_file/test_a/result
-        failed
+	$ cat .shtest/totals
+	# source this file
+	total=1
+	passed=0
+	failed=1
+	$ cat .shtest/test_file/test_a/result
+	failed
 
 * remove dependency on non-portable `mktemp`
