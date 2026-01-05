@@ -12,7 +12,10 @@ EOF
 	expected="\
 $test_file
 
-test_a...ok"
+test_a...ok
+
+ran 1 test(s)
+passed: 1"
 
 	test "$result" = "$expected"
 	exit_code=$?
@@ -45,7 +48,10 @@ test_a...ok
 
 $test_file2
 
-test_b...ok"
+test_b...ok
+
+ran 2 test(s)
+passed: 2"
 
 	test "$result" = "$expected"
 	exit_code=$?
@@ -92,7 +98,10 @@ EOF
 	expected="\
 $test_file
 
-test_a...ok"
+test_a...ok
+
+ran 1 test(s)
+passed: 1"
 
 	test "$result" = "$expected"
 	exit_code=$?
@@ -119,7 +128,10 @@ EOF
 $test_file
 
 test_a...ok
-test_b...ok"
+test_b...ok
+
+ran 2 test(s)
+passed: 2"
 
 	test "$result" = "$expected"
 	exit_code=$?
@@ -153,7 +165,10 @@ $test_file
 
 test_a...ok
 test_b...ok
-test_c...ok"
+test_c...ok
+
+ran 3 test(s)
+passed: 3"
 
 	test "$result" = "$expected"
 	exit_code=$?
@@ -179,7 +194,10 @@ EOF
 	expected="\
 $test_file
 
-test_this_is_a_real_test_function...ok"
+test_this_is_a_real_test_function...ok
+
+ran 1 test(s)
+passed: 1"
 
 	test "$result" = "$expected"
 	exit_code=$?
@@ -207,7 +225,10 @@ EOF
 $test_file
 
 test_assert_equal_is_defined...ok
-test_assert_exit_code_is_defined...ok"
+test_assert_exit_code_is_defined...ok
+
+ran 2 test(s)
+passed: 2"
 
 	test "$result" = "$expected"
 	exit_code=$?
@@ -237,7 +258,11 @@ $test_file
 
 test_a...FAILED
 Something went wrong.
-test_b...ok"
+test_b...ok
+
+ran 2 test(s)
+passed: 1
+FAILED: 1"
 
 	test "$result" = "$expected"
 	exit_code=$?
@@ -261,7 +286,10 @@ EOF
 	expected="\
 $test_file
 
-test_a...ok"
+test_a...ok
+
+ran 1 test(s)
+passed: 1"
 
 	test "$result" = "$expected"
 	exit_code=$?

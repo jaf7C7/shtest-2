@@ -14,8 +14,9 @@ _run_test () {
 	fi
 
 	errors=$("$1" 2>&1)
+	exit_code=$?
 
-	if test $? -eq 0
+	if test "$exit_code" -eq 0
 	then
 		printf "$okfmt" 'ok'
 	else
@@ -26,6 +27,8 @@ _run_test () {
 			printf "$errfmt" "$errors"
 		fi
 	fi
+
+	return "$exit_code"
 }
 
 _extract_tests () {
@@ -52,33 +55,78 @@ _extract_tests () {
 	printf '%s\n' "$@"
 }
 
-_run_all_tests () {
-	# $1 - file containing tests to be run
-	. "$1"
-
-	printf '%s\n\n' "$1"
-
-	for test in $(_extract_tests "$1")
-	do
-		_run_test "$test"
-	done
-
-	printf '\n'
-}
-
 main () {
 	for path in "$@"
 	do
 		if test -d "$path"
 		then
 			shift
+			# Strip trailing slashes to avoid double slash in resulting path.
 			set -- "${path%%/}"/* "$@"
 			continue
 		fi
 	done
 
+	results_file=$(mktemp)
+	
+	cat >"$results_file" <<EOF
+total=0
+passed=0
+failed=0
+EOF
+
 	for file in "$@"
 	do
-		( _run_all_tests "$file" )
+		(
+			. "$file"
+			. "$results_file"
+
+			printf '%s\n\n' "$file"
+
+			for test in $(_extract_tests "$file")
+			do
+				if ( _run_test "$test" )
+				then
+					passed=$((passed + 1))
+				else
+					failed=$((failed + 1))
+				fi
+
+				total=$((total + 1))
+			done
+
+			cat >"$results_file" <<EOF
+total=$total
+passed=$passed
+failed=$failed
+EOF
+			printf '\n'
+		)
 	done
+
+	. "$results_file"
+	rm "$results_file"
+
+	if test -t 1
+	then
+		passedfmt="\033[1;32m%s\033[m\n"
+		failedfmt="\033[1;31m%s\033[m\n"
+	else
+		passedfmt='%s\n'
+		failedfmt='%s\n'
+	fi
+
+	printf 'ran %s test(s)\n' "$total"
+
+	if test "$passed" -gt 0
+	then
+		printf "$passedfmt" "passed: $passed"
+	fi
+
+	if test "$failed" -gt 0
+	then
+		printf "$failedfmt" "FAILED: $failed"
+	fi
+
+	printf '\n'
 }
