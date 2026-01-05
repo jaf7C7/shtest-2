@@ -1,0 +1,25 @@
+TODO
+
+* decouple the tests from the format of the printed output.
+
+  results dir created per test run and deleted at the end? it would only change
+  the focus of the coupling from the printed output to the structure of the
+  results dir, since one of them has to be parsed in the tests anyway. maybe not
+  worth it at this time unless the printed output format gets changed a lot.
+
+  example results dir:
+
+	$ tree .shtest
+	.shtest
+	├── totals
+	└── test_file
+	    └── test_a
+	        ├── errors  <- only present if something was printed to stderr
+	        └── result
+        $ cat .shtest/totals
+        # source this file
+        total=1
+        passed=0
+        failed=1
+        $ cat .shtest/test_file/test_a/result
+        failed
