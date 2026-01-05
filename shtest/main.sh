@@ -54,7 +54,6 @@ _extract_tests () {
 
 _run_all_tests () {
 	# $1 - file containing tests to be run
-	. shtest/assert.sh
 	. "$1"
 
 	printf '%s\n\n' "$1"

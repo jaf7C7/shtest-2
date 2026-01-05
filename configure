@@ -1,0 +1,22 @@
+#!/bin/sh
+#
+# Run this script from the root of the repository to generate an executable
+# which can then be placed anywhere in your PATH.
+#
+set -eu
+
+if ! test -d bin
+then
+	mkdir bin
+fi
+
+cat >bin/shtest <<EOF
+#!/bin/sh
+. $PWD/shtest/main.sh
+. $PWD/shtest/assert.sh
+main "\$@"
+EOF
+
+chmod +x bin/shtest
+
+echo "created executable $PWD/bin/shtest"
