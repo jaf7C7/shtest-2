@@ -82,6 +82,34 @@ EOF
 	printf '\n'
 }
 
+_report_results () {
+	# $1 - results file
+	. "$1"
+
+	if test -t 1
+	then
+		passedfmt="\033[1;32m%s\033[m\n"
+		failedfmt="\033[1;31m%s\033[m\n"
+	else
+		passedfmt='%s\n'
+		failedfmt='%s\n'
+	fi
+
+	printf 'ran %s test(s)\n' "$total"
+
+	if test "$passed" -gt 0
+	then
+		printf "$passedfmt" "passed: $passed"
+	fi
+
+	if test "$failed" -gt 0
+	then
+		printf "$failedfmt" "FAILED: $failed"
+	fi
+
+	printf '\n'
+}
+
 main () {
 	for path in "$@"
 	do
@@ -107,29 +135,7 @@ EOF
 		( _run_all_tests "$file" "$results_file" )
 	done
 
-	. "$results_file"
+	_report_results "$results_file"
+
 	rm "$results_file"
-
-	if test -t 1
-	then
-		passedfmt="\033[1;32m%s\033[m\n"
-		failedfmt="\033[1;31m%s\033[m\n"
-	else
-		passedfmt='%s\n'
-		failedfmt='%s\n'
-	fi
-
-	printf 'ran %s test(s)\n' "$total"
-
-	if test "$passed" -gt 0
-	then
-		printf "$passedfmt" "passed: $passed"
-	fi
-
-	if test "$failed" -gt 0
-	then
-		printf "$failedfmt" "FAILED: $failed"
-	fi
-
-	printf '\n'
 }
