@@ -1,5 +1,6 @@
 assert_equal () {
-	# $1, $2 - strings to compare
+	# $1 - expected value
+	# $2 - actual value
 	if test "$1" != "$2"
 	then
 		printf "expected: '%s'\nactual: '%s'\n\n" "$1" "$2"
