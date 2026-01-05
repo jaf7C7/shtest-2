@@ -33,7 +33,6 @@ _run_test () {
 
 _extract_tests () {
 	# $1 - File containing test functions.
-	. "$1"
 	
 	# Search the file for potential test names. That is any words
 	# at the beginning of a line which start with "test_" and end in
