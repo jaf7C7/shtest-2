@@ -70,8 +70,9 @@ main () {
 			continue
 		fi
 	done
-	for path in "$@"
+
+	for file in "$@"
 	do
-		( _run_all_tests "$path" )
+		( _run_all_tests "$file" )
 	done
 }
