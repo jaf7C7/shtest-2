@@ -72,7 +72,7 @@ main () {
 		if test -d "$path"
 		then
 			shift
-			set -- "$path"/* "$@"
+			set -- "${path%%/}"/* "$@"
 			continue
 		fi
 	done
