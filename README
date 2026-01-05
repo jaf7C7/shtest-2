@@ -1,0 +1,116 @@
+shtest
+======
+
+A simple test runner and assertion library for shell scripts and small
+command-line utitlities.
+
+Usage
+-----
+
+	shtest (<file>|<dir>) [(<file>|<dir>)...]
+
+Getting Started
+---------------
+
+Run the `configure` script to generate an executable which can
+then be placed/symlinked anywhere in your PATH.
+
+After the executable has been generated, run the tests as shown below.
+
+	$ bin/shtest tests/
+	tests/test_assert_equal.sh
+
+	test_fails_if_strings_are_not_equal...ok
+	test_succeeds_if_strings_are_equal...ok
+	test_prints_message_if_strings_are_not_equal...ok
+	test_does_not_print_message_if_strings_are_equal...ok
+
+	tests/test_assert_exit_code.sh
+
+	test_prints_message_on_failure...ok
+	test_does_not_print_message_on_success...ok
+	test_fails_if_incorrect_exit_code...ok
+	test_succeeds_if_correct_exit_code...ok
+	test_executes_command_in_isolation...ok
+	test_does_not_throw_error_if_command_contains_whitespace...ok
+	test_does_not_throw_error_if_command_contains_quotes...ok
+
+	tests/test_shtest.sh
+
+	test_extracts_test_names_from_a_file_and_runs_them...ok
+	test_runs_all_tests_in_each_test_file_specified...ok
+	test_runs_each_test_file_in_isolation...ok
+	test_ignores_functions_which_do_not_start_with_test_...ok
+	test_runs_each_test_function_in_isolation...ok
+	test_also_extracts_function_names_with_different_valid_formatting...ok
+	test_only_extracts_names_of_defined_functions...ok
+	test_assertions_are_available_in_tests...ok
+	test_stderr_received_during_test_execution_displayed_after_result...ok
+	test_recurses_into_directories_passed_as_arguments...ok
+
+
+Writing Tests
+-------------
+
+`shtest` will run any function in the given file which begins with `test_`. If
+the test function returns 0 then the test passes, otherwise it fails.
+
+You can use the following assertions in the tests, which wrap the `test`
+utility to add helpful error messages to make debugging failures easier.
+
+	# shtest/assert.sh
+
+	assert_equal () {
+		# $1, $2 - strings to compare
+		if test "$1" != "$2"
+		then
+			printf "expected: '%s'\nactual: '%s'\n\n" "$1" "$2"
+			return 1
+		fi
+	}
+
+	assert_exit_code () {
+		# $1 - expected exit code
+		# $2 - command to be executed
+		( eval "$2" )
+
+		set -- "$@" $?  # $3 - actual exit code of command
+
+		if test "$3" -ne "$1"
+		then
+			printf "expected: '%s'\nactual: '%s'\n" "$1" "$3"
+			return 1
+		fi
+	}
+
+For example:
+
+	assert_equal 'hello' 'world'
+
+Would give the error message:
+
+	expected: 'hello'
+	actual: 'world'
+
+Make sure the expected value is the first parameter, and the actual value is
+the second.
+
+If a test fails any stderr output captured during the test execution will be
+printed to the terminal to help locate the problem. Using the provided
+assertion functions should be useful.
+
+	$ shtest test_blah.sh
+	test_passes...ok
+	test_fails...FAILED
+	expected: 'true'
+	actual: 'false'
+
+The tests in this repository are written to be run using `shtest`, so the code
+tests itself. Read the test code for more usage examples.
+
+Portability
+-----------
+
+`shtest` attempts to be as portable as possible. It works on Linux and probably
+on macos and BSD, but the tests use `mktemp` which may cause portability
+problems. Please raise an issue if you encounter a problem so it can be fixed.
