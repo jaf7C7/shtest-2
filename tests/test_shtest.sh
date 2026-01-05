@@ -1,3 +1,10 @@
+if ! command -v shtest >/dev/null
+then
+	# Be user-friendly and allow running the tests with
+	#     $ bin/shtest tests/
+	PATH="bin:$PATH"
+fi
+
 test_extracts_test_names_from_a_file_and_runs_them () {
 	test_file=$(mktemp)
 
