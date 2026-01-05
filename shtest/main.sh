@@ -6,9 +6,11 @@ _run_test () {
 	then
 		okfmt='\033[32m%s\033[m\n'
 		failfmt='\033[1;31m%s\033[m\n'
+		errfmt='\033[31m%s\033[m\n'
 	else
 		okfmt='%s\n'
 		failfmt='%s\n'
+		errfmt='%s\n'
 	fi
 
 	errors=$("$1" 2>&1)
@@ -17,7 +19,12 @@ _run_test () {
 	then
 		printf "$okfmt" 'ok'
 	else
-		printf "$failfmt" 'FAILED' "$errors"
+		printf "$failfmt" 'FAILED'
+
+		if test -n "$errors"
+		then
+			printf "$errfmt" "$errors"
+		fi
 	fi
 }
 
