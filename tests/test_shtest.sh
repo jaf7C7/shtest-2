@@ -1,5 +1,3 @@
-. shtest/main.sh
-
 test_extracts_test_names_from_a_file_and_runs_them () {
 	test_file=$(mktemp)
 
@@ -8,7 +6,7 @@ test_a () {
 	return 0
 }
 EOF
-	result=$(main "$test_file")
+	result=$(shtest "$test_file")
 	expected="\
 $test_file
 
@@ -37,7 +35,7 @@ test_b () {
 }
 EOF
 
-	result=$(main "$test_file1" "$test_file2")
+	result=$(shtest "$test_file1" "$test_file2")
 	expected="\
 $test_file1
 
@@ -65,7 +63,7 @@ EOF
 	cat >"$test_file2" <<EOF
 some_var=2
 EOF
-	main "$test_file1" "$test_file2" >/dev/null
+	shtest "$test_file1" "$test_file2" >/dev/null
 
 	test -z "$some_var"
 	exit_code=$?
@@ -88,7 +86,7 @@ some_func () {
 }
 EOF
 
-	result=$(main "$test_file")
+	result=$(shtest "$test_file")
 	expected="\
 $test_file
 
@@ -114,7 +112,7 @@ test_b () {
 	test -z "$a"
 }
 EOF
-	result=$(main "$test_file")
+	result=$(shtest "$test_file")
 	expected="\
 $test_file
 
@@ -147,7 +145,7 @@ test_c()
 	return 0
 }
 EOF
-	result=$(main "$test_file")
+	result=$(shtest "$test_file")
 	expected="\
 $test_file
 
@@ -175,7 +173,7 @@ test_looks_like_a_test_function_but_is_not () {
 '
 }
 EOF
-	result=$(main "$test_file")
+	result=$(shtest "$test_file")
 	expected="\
 $test_file
 
@@ -202,7 +200,7 @@ test_assert_exit_code_is_defined () {
 }
 EOF
 	
-	result=$(main "$test_file")
+	result=$(shtest "$test_file")
 	expected="\
 $test_file
 
@@ -231,7 +229,7 @@ test_b () {
 }
 EOF
 	
-	result=$(main "$test_file")
+	result=$(shtest "$test_file")
 	expected="\
 $test_file
 
@@ -257,7 +255,7 @@ test_a () {
 }
 EOF
 
-	result=$(main "$test_dir")
+	result=$(shtest "$test_dir")
 	expected="\
 $test_file
 
