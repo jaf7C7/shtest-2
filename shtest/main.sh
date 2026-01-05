@@ -54,6 +54,34 @@ _extract_tests () {
 	printf '%s\n' "$@"
 }
 
+_run_all_tests () {
+	# $1 - file containing tests to run
+	# $2 - results file to read/write results
+	. "$1"
+	. "$2"
+
+	printf '%s\n\n' "$1"
+
+	for test in $(_extract_tests "$1")
+	do
+		if ( _run_test "$test" )
+		then
+			passed=$((passed + 1))
+		else
+			failed=$((failed + 1))
+		fi
+
+		total=$((total + 1))
+	done
+
+	cat >"$2" <<EOF
+total=$total
+passed=$passed
+failed=$failed
+EOF
+	printf '\n'
+}
+
 main () {
 	for path in "$@"
 	do
@@ -76,31 +104,7 @@ EOF
 
 	for file in "$@"
 	do
-		(
-			. "$file"
-			. "$results_file"
-
-			printf '%s\n\n' "$file"
-
-			for test in $(_extract_tests "$file")
-			do
-				if ( _run_test "$test" )
-				then
-					passed=$((passed + 1))
-				else
-					failed=$((failed + 1))
-				fi
-
-				total=$((total + 1))
-			done
-
-			cat >"$results_file" <<EOF
-total=$total
-passed=$passed
-failed=$failed
-EOF
-			printf '\n'
-		)
+		( _run_all_tests "$file" "$results_file" )
 	done
 
 	. "$results_file"
