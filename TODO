@@ -23,3 +23,5 @@ TODO
         failed=1
         $ cat .shtest/test_file/test_a/result
         failed
+
+* remove dependency on non-portable `mktemp`
