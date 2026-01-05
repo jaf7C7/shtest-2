@@ -2,7 +2,7 @@ shtest
 ======
 
 A simple test runner and assertion library for shell scripts and small
-command-line utitlities.
+command-line utilities.
 
 Usage
 -----
@@ -35,7 +35,7 @@ After the executable has been generated, run the tests as shown below.
 	test_does_not_throw_error_if_command_contains_whitespace...ok
 	test_does_not_throw_error_if_command_contains_quotes...ok
 
-	tests/test_shtest.sh
+	tests/test_main.sh
 
 	test_extracts_test_names_from_a_file_and_runs_them...ok
 	test_runs_all_tests_in_each_test_file_specified...ok
@@ -48,6 +48,8 @@ After the executable has been generated, run the tests as shown below.
 	test_stderr_received_during_test_execution_displayed_after_result...ok
 	test_recurses_into_directories_passed_as_arguments...ok
 
+	ran 21 test(s)
+	passed: 21
 
 Writing Tests
 -------------
