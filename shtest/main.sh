@@ -41,7 +41,9 @@ _extract_tests () {
 	set -- $(sed -n 's/\(^test_[^ 	]*\)[ 	]*().*/\1/p' "$1")
 
 	# Filter out any names which aren't declared in the file, leaving only
-	# real tests.
+	# real tests. The test file is sourced in `_run_all_tests` which calls
+	# this function, so we don't need to source the test file again here to
+	# access the test functions.
 	for name in "$@"
 	do
 		shift
