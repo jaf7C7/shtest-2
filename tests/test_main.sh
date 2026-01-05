@@ -216,3 +216,33 @@ test_assert_exit_code_is_defined...ok"
 
 	return "$exit_code"
 }
+
+test_stderr_received_during_test_execution_displayed_after_result () {
+	test_file=$(mktemp)
+
+	cat >"$test_file" <<EOF
+test_a () {
+	echo 'Something went wrong.' >&2
+	return 1
+}
+
+test_b () {
+	return 0
+}
+EOF
+	
+	result=$(main "$test_file")
+	expected="\
+$test_file
+
+test_a...FAILED
+Something went wrong.
+test_b...ok"
+
+	test "$result" = "$expected"
+	exit_code=$?
+
+	rm "$test_file"
+
+	return "$exit_code"
+}

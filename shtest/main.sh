@@ -11,11 +11,13 @@ _run_test () {
 		failfmt='%s\n'
 	fi
 
-	if ( "$1" )
+	errors=$("$1" 2>&1)
+
+	if test $? -eq 0
 	then
 		printf "$okfmt" 'ok'
 	else
-		printf "$failfmt" 'FAILED'
+		printf "$failfmt" 'FAILED' "$errors"
 	fi
 }
 
