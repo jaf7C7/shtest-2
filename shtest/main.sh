@@ -61,8 +61,17 @@ _run_all_tests () {
 }
 
 main () {
-	for file in "$@"
+	for path in "$@"
 	do
-		( _run_all_tests "$file" )
+		if test -d "$path"
+		then
+			shift
+			set -- "$path"/* "$@"
+			continue
+		fi
+	done
+	for path in "$@"
+	do
+		( _run_all_tests "$path" )
 	done
 }

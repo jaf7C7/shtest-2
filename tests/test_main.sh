@@ -246,3 +246,27 @@ test_b...ok"
 
 	return "$exit_code"
 }
+
+test_recurses_into_directories_passed_as_arguments () {
+	test_dir=$(mktemp -d)
+	test_file=$(mktemp -p "$test_dir")
+
+	cat >"$test_file" <<EOF
+test_a () {
+	return 0
+}
+EOF
+
+	result=$(main "$test_dir")
+	expected="\
+$test_file
+
+test_a...ok"
+
+	test "$result" = "$expected"
+	exit_code=$?
+
+	rm -r "$test_file" "$test_dir"
+
+	return "$exit_code"
+}
