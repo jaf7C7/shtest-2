@@ -59,6 +59,20 @@ _extract_tests () {
 _run_all_tests () {
 	# $1 - file containing tests to run
 	# $2 - results file to read/write results
+
+	for file in "$@"
+	do
+		shift
+
+		case "$file" in
+		/*|./*|../*) ;;
+		*)
+			file="./$file"
+		esac
+
+		set -- "$@" "$file"
+	done
+
 	. "$1"
 	. "$2"
 
