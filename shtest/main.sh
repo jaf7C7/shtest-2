@@ -43,7 +43,7 @@ _extract_tests () {
 	# Filter out any names which aren't declared in the file, leaving only
 	# real tests. The test file is sourced in `_run_all_tests` which calls
 	# this function, so we don't need to source the test file again here to
-	# access the test functions.
+	# make `command -v` work.
 	for name in "$@"
 	do
 		shift
@@ -60,6 +60,9 @@ _run_all_tests () {
 	# $1 - file containing tests to run
 	# $2 - results file to read/write results
 
+	# Make sure that we have the full path to each file to avoid an error
+	# when trying to source it.  If the path is ambiguous then the file is
+	# assumed to be in the current directory.
 	for file in "$@"
 	do
 		shift
@@ -132,7 +135,8 @@ main () {
 		if test -d "$path"
 		then
 			shift
-			# Strip trailing slashes to avoid double slash in resulting path.
+			# Strip trailing slashes to avoid double slashes in the
+			# resulting path.
 			set -- "${path%%/}"/* "$@"
 			continue
 		fi
