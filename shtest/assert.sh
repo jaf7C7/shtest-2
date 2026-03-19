@@ -1,3 +1,24 @@
+assert () {
+	if ! test "$@"
+	then
+		for arg
+		do
+			shift
+
+			case "$arg" in
+			*[[:space:]]*)
+				arg="'$arg'"
+			esac
+
+			set -- "$@" "$arg"
+		done
+
+		echo "assertion failed: $@"
+
+		return 1
+	fi
+}
+
 assert_equal () {
 	# $1 - expected value
 	# $2 - actual value
