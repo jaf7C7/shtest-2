@@ -68,9 +68,12 @@ _run_all_tests () {
 		shift
 
 		case "$file" in
-		/*|./*|../*) ;;
+		/*)
+			# Path is absolute, do nothing.
+			;;
 		*)
-			file="./$file"
+			# Path is relative, prepend $PWD
+			file="$PWD/$file"
 		esac
 
 		set -- "$@" "$file"
