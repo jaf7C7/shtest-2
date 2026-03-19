@@ -1,5 +1,11 @@
 TODO
 
+* `__shtest_before_all ()`, `__shtest_before_each ()`, `__shtest_after_all ()`,
+  ``__shtest_after_each ()` functions for convenient setup and teardown.
+
+* print failure info and stderr output at the end of the test run so you don't
+  have to scroll up to see the error messages if you have a large suite.
+
 * decouple the tests from the format of the printed output.
 
   results dir created per test run and deleted at the end? it would only change
